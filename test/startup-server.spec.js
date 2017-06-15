@@ -17,7 +17,6 @@ let API = undefined;
 
 before('start server', () => {
   const storageConnectionString = process.env.DV_BLOB_STORAGE_CONNECTION_STRING;
-  console.log("conString:(", storageConnectionString + ")")
   return blobStorage.connect(storageConnectionString)
     .then(() => {
       // create Server
