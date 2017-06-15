@@ -21,5 +21,3 @@ blobStorage.connect(storageConnectionString)
   .catch((err) => {
     console.log("can not start to blobstorage:", err);
   });
-
-
