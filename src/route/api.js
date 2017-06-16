@@ -16,7 +16,11 @@ function getSvg(req, res) {
   const key = blobStorage.getKey(projectId, fileName);
   blobStorage.getBlob(containerName, key)
     .then((svg) => {
-      res.json(svg);
+        res.writeHead(200,
+        {
+          'Content-Type': 'image/svg+xml'
+        });
+      res.end(svg);
     })
     .catch((err) => {
       console.log(err);
@@ -48,8 +52,7 @@ function getSvgAsPng(req, res) {
     .then((png) => {
       res.writeHead(200,
         {
-          'Content-Type': 'image/png',
-          'Content-Length': png.length
+          'Content-Type': 'image/png'
         });
       res.end(png, 'binary');
     })
