@@ -10,6 +10,9 @@ const webServer = new WebServer(OPTIONS);
 webServer.createServer();
 
 const storageConnectionString = process.env.DV_BLOB_STORAGE_CONNECTION_STRING;
+if (!storageConnectionString) {
+  throw Error("connection string for storage missing.");
+}
 
 blobStorage.connect(storageConnectionString)
   .then(() => {

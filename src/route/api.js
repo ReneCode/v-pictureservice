@@ -1,4 +1,5 @@
 
+var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 
@@ -16,7 +17,7 @@ function getSvg(req, res) {
   const key = blobStorage.getKey(projectId, fileName);
   blobStorage.getBlob(containerName, key)
     .then((svg) => {
-        res.writeHead(200,
+      res.writeHead(200,
         {
           'Content-Type': 'image/svg+xml'
         });
@@ -62,8 +63,31 @@ function getSvgAsPng(req, res) {
     })
 }
 
+
+function getImage(req, res) {
+  const projectId = req.params.projectId;
+  const imageName = req.params.imageName.toLowerCase();
+  const query = req.query;
+
+  const containerName = blobStorage.getContainerName(tenantId);
+  const key = blobStorage.getKey(projectId, imageName);
+  console.log("KEY:", key)
+  let stream = fs.createWriteStream("tmp.png")
+  blobStorage.getBlobToStream(containerName, key, res)
+    .then(() => {
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    })
+}
+
 router.get("/svgs/:projectId/:fileName", getSvg);
 router.get("/svgs/:projectId/:fileName/png", getSvgAsPng);
+
+router.get("/images/:projectId/:imageName", getImage);
+
 
 module.exports = router;
 

@@ -39,6 +39,18 @@ class BlobStorage {
         })
     }
 
+    getBlobToStream(containerName, key, stream, options) {
+        return new Promise((resolve, reject) => {
+            this.blobService.getBlobToStream(containerName, key, stream, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve();
+            })
+
+        })
+    }
+
     getBlobs(containerName, prefix, continuationToken, maxResults) {
         return new Promise((resolve, reject) => {
             let options = {

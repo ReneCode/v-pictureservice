@@ -37,14 +37,6 @@ class WebServer {
 
 		var app = express();
 
-		const AUTH0_SECRET = process.env.AUTH0_SECRET;
-		const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
-
-		var authCheck = jwt({
-			secret: new Buffer(AUTH0_SECRET),
-			audience: AUTH0_AUDIENCE
-		})
-
 		app.use(bodyParser.json());
 		app.use(bodyParser.urlencoded({ extended: true }));
 		app.use(cors());
@@ -56,6 +48,18 @@ class WebServer {
 		app.use("/", routeHome);
 
 		if (this.options.authorize) {
+			const AUTH0_SECRET = process.env.AUTH0_SECRET;
+			const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE;
+
+			if (!AUTH0_SECRET || !AUTH0_AUDIENCE) {
+				throw Error("Auth configuration missing.")
+			}
+
+			var authCheck = jwt({
+				secret: new Buffer(AUTH0_SECRET),
+				audience: AUTH0_AUDIENCE
+			});
+			
 			app.use(authCheck);
 		}
 		app.use("/api/v1/", routeApi);
