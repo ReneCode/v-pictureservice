@@ -22,16 +22,4 @@ describe("svgs", () => {
 		});
 	});
 
-	it("get one svg as png", () => {
-
-		const options = {
-			params: {
-			}
-		}
-		return axios.get(SVG_URL + "/png", options).then((res) => {
-			res.should.be.not.null;
-			res.data.should.be.a('string');
-		});
-	}).timeout(4000);
-
 })
