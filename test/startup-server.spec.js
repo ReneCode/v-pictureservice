@@ -2,7 +2,7 @@ var WebServer = require('../src/web-server');
 let blobStorage = require('../src/blobstorage/blobstorage');
 
 const OPTIONS = {
-  port: 3002,
+  port: 3102,
   authorize: false,
   logging: false
 };

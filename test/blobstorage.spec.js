@@ -7,8 +7,8 @@ let blobStorage = require('../src/blobstorage/blobstorage');
 describe("blob storage", () => {
 	it("get blob", () => {
 
-		let container = "devcontainer-a22b77e5-e36a-4759-aabf-98c1d63eb1c2";
-		const projectId = "56074901-1bad-41c7-a553-264bed8f2a0a";
+		let container = "devcontainer-6d6cb5cd-90b8-4f86-b173-828dbf6b9b12";
+		const projectId = "9949702d-c3e2-4f48-bfdb-f63780bb51cd";
 		const file = "1.svg";
 		const key = blobStorage.getKey(projectId, file);
 		return blobStorage.getBlob(container, key)

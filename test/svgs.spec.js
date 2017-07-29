@@ -2,7 +2,7 @@
 let axios = require('axios');
 let should = require('chai').should();
 
-const PORT = 3002;
+const PORT = 3102;
 const host = `http://localhost:${PORT}`;
 
 describe("svgs", () => {
@@ -11,7 +11,7 @@ describe("svgs", () => {
 		axios.defaults.headers["Content-Type"] = "application/json";
 	});
 
-	const PROJECT_ID = "aa7c8e1e-0ced-4c4e-a436-0828b8bb1138";
+	const PROJECT_ID = "9949702d-c3e2-4f48-bfdb-f63780bb51cd";
 	const SVG_NAME = "2.svg";
 	const SVG_URL = `${host}/api/v1/svgs/${PROJECT_ID}/${SVG_NAME}`;
 
