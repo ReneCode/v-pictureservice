@@ -1,20 +1,47 @@
 
 var fs = require('fs');
+const path = require('path');
+
 var express = require('express');
 var router = express.Router();
 
 let blobStorage = require('../blobstorage/blobstorage');
 
-const tenantId = '6d6cb5cd-90b8-4f86-b173-828dbf6b9b12';
+
+function getContainerName(projectId) {
+  return "prj-" + projectId;
+}
+
+function getDirectory(fileName) {
+  const extension = path.extname(fileName);
+  let directory = "other";
+  switch (extension) {
+    case ".svg":
+      directory = "svg";
+      break;
+    case ".png":
+      directory = "png";
+      break;
+    case ".e3d":
+      directory = "e3d";
+      break;
+  }
+  return directory;
+}
+
+function getBlobName(fileName) {
+  return getDirectory(fileName) + "/" + fileName;
+}
 
 function getSvg(req, res) {
   const projectId = req.params.projectId;
   const fileName = req.params.fileName;
   const query = req.query;
 
-  const containerName = blobStorage.getContainerName(tenantId);
-  const key = blobStorage.getKey(projectId, fileName);
-  blobStorage.getBlob(containerName, key)
+  const containerName = getContainerName(projectId);
+  const blobName = getBlobName(fileName);
+  
+  blobStorage.getBlob(containerName, blobName)
     .then((svg) => {
       res.writeHead(200,
         {
@@ -33,9 +60,9 @@ function getImage(req, res) {
   const imageName = req.params.imageName.toLowerCase();
   const query = req.query;
 
-  const containerName = blobStorage.getContainerName(tenantId);
-  const key = blobStorage.getKey(projectId, imageName);
-  blobStorage.getBlobToStream(containerName, key, res)
+  const containerName = getContainerName(projectId);
+  const blobName = getBlobName(imageName);
+  blobStorage.getBlobToStream(containerName, blobName, res)
     .then(() => {
       res.end();
     })
